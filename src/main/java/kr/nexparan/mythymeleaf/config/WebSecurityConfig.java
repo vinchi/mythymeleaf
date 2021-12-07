@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
-                .loginPage("/login")
+                .loginPage("/account/login")
                     .permitAll()
                     .and()
                 .logout()
@@ -44,10 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 //.passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("select username, password, enabled "
-                        + "from users "
+                        + "from user "
                         + "where username = ?")
-                .authoritiesByUsernameQuery("select email, authority "
-                        + "from role "
+                .authoritiesByUsernameQuery("select username, name "
+                        + "from user_role ur inner join user u ur.user_id = u.id "
+                        + "inner join role r  on ur.role_id = r_id "
                         + "where email = ?");
     }
 
