@@ -1,7 +1,9 @@
 package kr.nexparan.mythymeleaf.controller;
 
+import kr.nexparan.mythymeleaf.model.Board;
 import kr.nexparan.mythymeleaf.model.User;
 import kr.nexparan.mythymeleaf.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -9,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class UserApiController {
 
     private final UserRepository repository;
@@ -21,7 +24,11 @@ public class UserApiController {
 
     @GetMapping("/users")
     List<User> all() {
-       return repository.findAll();
+        List<User> users = repository.findAll();
+        log.debug("getBoards().size() 호출전");
+        log.debug("getBoards().size() : {}", users.get(0).getBoards().size());
+        log.debug("getBoards().size() 호출후");
+       return users;
     }
 
 
@@ -44,7 +51,11 @@ public class UserApiController {
                 .map(user -> {
 //                    User.setTitle(newUser.getTitle());
 //                    User.setContent(newUser.getContent());
-                    user.setBoards(newUser.getBoards());
+                    user.getBoards().clear();
+                    user.getBoards().addAll(newUser.getBoards());
+                    for(Board board : user.getBoards()) {
+                        board.setUser(user);
+                    }
                     return repository.save(user);
                 })
                 .orElseGet(() -> {
