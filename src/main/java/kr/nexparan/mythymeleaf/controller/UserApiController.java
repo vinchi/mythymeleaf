@@ -23,11 +23,13 @@ public class UserApiController {
 
 
     @GetMapping("/users")
-    List<User> all() {
-        List<User> users = repository.findAll();
-        log.debug("getBoards().size() 호출전");
-        log.debug("getBoards().size() : {}", users.get(0).getBoards().size());
-        log.debug("getBoards().size() 호출후");
+    List<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
+        List<User> users = null;
+        if("query".equals(method)) {
+            users = repository.findByUsernameQuery(text);
+        } else {
+            users = repository.findAll();
+        }
        return users;
     }
 
