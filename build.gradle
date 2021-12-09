@@ -19,6 +19,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/redis.clients/jedis
 	implementation 'redis.clients:jedis:2.8.0'
 
+	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+	implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'mysql:mysql-connector-java'
